@@ -17,13 +17,15 @@ In this challenge, you will analyze a dataset containing food-related data. The 
    - Further group by both Category and Subcategory.
    - Calculate the same metrics (total, average, min, max) for each Subcategory.
 
-Use subsets of data much like what is provided in the example file below, or from the [dataset.csv](dataset.csv) to write tests incrementally. 
+### Recommended approach
+
+Use subsets of data much like what is provided in the example below, or from the [dataset.csv](dataset.csv) file to write tests incrementally. 
 
 For instance:
-1. Start with just the header row and a single line and ensure you get the total, min, max and average values fo that single row.
+1. Start with just the header row and a single line and ensure you get the total, min, max and average values for that single row.
 2. Add a test that adds a second line with the same category and subcategory as the test above and ensure that the calculations are still performed correctly
 3. Add a test that adds an additional line with a new subcategory and ensure that the calculations are still performed correctly
-4. Add a test that adds an additional line with a new categor and subcategory and ensure that the calculations are still performed correctly
+4. Add a test that adds an additional line with a new category and subcategory and ensure that the calculations are still performed correctly
 5. Run against the full dataset and compare to the [Example Completing Primary Goals](#example-completing-primary-goals)
 
 example data:
