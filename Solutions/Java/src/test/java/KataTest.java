@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -24,6 +26,10 @@ public class KataTest {
         Food food = Kata.importData(foodData);
         assertNotEquals(food, null);
         assertEquals(food.getId(), 1);
+        assertEquals(food.getCategory(), "Fruit");
+        assertEquals(food.getSubcategory(), "Apple");
+        assertEquals(food.getValue(), 74.41);
+        assertEquals(food.getDate(), LocalDateTime.parse("2024-01-23T06:58:00"));
    }
 
 
