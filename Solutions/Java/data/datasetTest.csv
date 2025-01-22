@@ -1,0 +1,10 @@
+ID,Category,Subcategory,Value,Timestamp
+1,Fruit,Apple,74.41,2024-01-23T06:58:00
+2,Vegetable,Spinach,73.91,2024-03-02T14:16:00
+255,Vegetable,Pepper,"$96.52",2024-01-12T11:47:00
+1686,"Fruit","Banana",95.6,2024-01-25T02:10:00
+1687,Vegetable,"Pepper",7.87,2024-01-19T06:22:00
+1688,"Protein",Tofu,18.67,2024-02-14T18:54:00
+3597,Fruit-Grape,3.52,2024-03-08T17:10:00
+4687,Grain,Corn,70.31,2024-02-06T15:37:00,
+Vegetable,Spinach,88.18,2024-03-09T22:54:00
