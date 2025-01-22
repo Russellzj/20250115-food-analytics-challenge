@@ -23,7 +23,9 @@ public class KataTest {
     @Test
     public void importFoodFromString() {
         String foodData = "1,Fruit,Apple,74.41,2024-01-23T06:58:00";
-        Food food = Kata.importData(foodData);
+        Foods foods = new Foods();
+        foods.addFood(foodData);
+        Food food = foods.getFoods().getFirst();
         assertNotEquals(food, null);
         assertEquals(food.getId(), 1);
         assertEquals(food.getCategory(), "Fruit");
