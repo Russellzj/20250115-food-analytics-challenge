@@ -14,9 +14,12 @@ public class Foods {
         }
     }
 
-    public static Food importData(String data) {
+    private Food importData(String data) {
         Food food  = new Food();
         String[] foodData = data.split(",");
+        for (int i = 0; i < foodData.length; i++) {
+            foodData[i] = foodData[i].replaceAll("^\"|\"$", "");
+        }
         if (foodData.length == 5) {
             if(foodData[0].matches("\\d+")) {
                 food.setId(Integer.parseInt(foodData[0]));
@@ -36,8 +39,8 @@ public class Foods {
                 System.out.println("Invalid Subcategory");
                 return null;
             }
-            if (foodData[3].matches("\\d+.\\d+")) {
-                food.setValue(Double.parseDouble(foodData[3]));
+            if (foodData[3].matches("\\$?\\d+.\\d{0,2}")) {
+                food.setValue(Double.parseDouble(foodData[3].replaceAll("^\\$", "")));
             } else {
                 System.out.println("Invalid Value");
                 return null;
@@ -52,11 +55,15 @@ public class Foods {
             }
             return food;
         }
-        System.out.println("Not enough data");
+        System.out.println("Invalid data");
         return null;
     }
 
     public List<Food> getFoods() {
         return foods;
+    }
+
+    public int getTotalFood() {
+        return foods.size();
     }
 }
