@@ -22,8 +22,8 @@ public class Kata {
             e.printStackTrace();
         }
 
-        System.out.println(foods);
-
-        System.out.println("End");
+        System.out.println();
+        System.out.print(foods);
+        System.out.println("Program Stop");
     }
 }

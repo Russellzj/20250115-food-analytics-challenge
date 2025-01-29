@@ -1,12 +1,10 @@
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Foods {
     private List<Food> foods = new ArrayList<>();
     private Map<String, List<Food>> categories = new HashMap<>();
+    private Map<String, HashSet<String>> categoryAndSubCategory = new HashMap<>();
     private Map<String, List<Food>> subCategories = new HashMap<>();
 
     public void addFood(String foodData) {
@@ -17,6 +15,8 @@ public class Foods {
             categories.get(newFood.getCategory()).add(newFood);
             subCategories.putIfAbsent(newFood.getSubcategory(), new ArrayList<>());
             subCategories.get(newFood.getSubcategory()).add(newFood);
+            categoryAndSubCategory.putIfAbsent(newFood.getCategory(), new HashSet<>());
+            categoryAndSubCategory.get(newFood.getCategory()).add(newFood.getSubcategory());
         }
     }
 
@@ -24,7 +24,7 @@ public class Foods {
         Food food  = new Food();
         String[] foodData = data.split(",");
         for (int i = 0; i < foodData.length; i++) {
-            foodData[i] = foodData[i].replaceAll("^\"|\"$", "");
+            foodData[i] = foodData[i].replaceAll("^\"|\"$|^\'|\'$", "");
             foodData[i] = foodData[i].trim();
         }
         if (foodData.length == 5) {
@@ -224,8 +224,21 @@ public class Foods {
 
     @Override
     public String toString() {
-        return ("Overall: Total: " + getTotalValue() +
+        StringBuilder sb = new StringBuilder();
+        sb.append("Overall: Total: " + getTotalValue() +
                 " Min: " + getMinimumValue() + " Max: " + getMinimumValue() +
-                " Avg: " + getAverageValue());
+                " Avg: " + getAverageValue() + "\n"
+        );
+        for (String category : categories.keySet()) {
+            sb.append("\tCategory: " + category + ", Total: " + getTotalValueCategory(category) +
+                    ", Min: " + getMinimumValueCategory(category) + " Max: " + getMaximumValueCategory(category) +
+                    ", Avg: " + getAvgCategoryValue(category) + "\n");
+            for (String sub : categoryAndSubCategory.get(category)) {
+                sb.append("\t\tSubcategory: " + sub + ", Total: " + getTotalValueSubCategory(sub) +
+                        ", Min: " + getMinimumValueSubcategory(sub) + " Max: " + getMaximumValueSubCategory(sub) +
+                        ", Avg: " + getAvgSubCategoryValue(sub) + "\n");
+            }
+        }
+        return sb.toString();
     }
 }
