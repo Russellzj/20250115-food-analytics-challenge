@@ -1,17 +1,22 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Foods {
-    private List<Food> foods = new ArrayList<Food>();
-    private FoodsStatistics allStatistics;
+    private List<Food> foods = new ArrayList<>();
+    private Map<String, List<Food>> categories = new HashMap<>();
+    private Map<String, List<Food>> subCategories = new HashMap<>();
 
     public void addFood(String foodData) {
         Food newFood = importData(foodData);
         if (newFood != null) {
             foods.add(newFood);
-        } else {
-            System.out.println("Invalid food Data");
+            categories.putIfAbsent(newFood.getCategory(), new ArrayList<>());
+            categories.get(newFood.getCategory()).add(newFood);
+            subCategories.putIfAbsent(newFood.getSubcategory(), new ArrayList<>());
+            subCategories.get(newFood.getSubcategory()).add(newFood);
         }
     }
 
@@ -26,25 +31,21 @@ public class Foods {
             if(foodData[0].matches("\\d+")) {
                 food.setId(Integer.parseInt(foodData[0]));
             } else {
-                System.out.println("Invalid ID");
                 return null;
             }
             if (foodData[1].matches("[A-Za-z ]+")) {
                 food.setCategory(foodData[1]);
             } else {
-                System.out.println("Invalid Category");
                 return null;
             }
             if (foodData[2].matches("[A-Za-z ]+")) {
                 food.setSubcategory(foodData[2]);
             } else {
-                System.out.println("Invalid Subcategory");
                 return null;
             }
             if (foodData[3].matches("\\$?\\d+.\\d{0,2}")) {
                 food.setValue(Double.parseDouble(foodData[3].replaceAll("^\\$", "")));
             } else {
-                System.out.println("Invalid Value");
                 return null;
             }
             if (foodData[4].matches(
@@ -52,12 +53,10 @@ public class Foods {
                             "?([0-5][0-9]):?([0-5][0-9])")) {
                 food.setDate(LocalDateTime.parse(foodData[4]));
             } else {
-                System.out.println("Invalid date");
                 return null;
             }
             return food;
         }
-        System.out.println("Invalid data");
         return null;
     }
 
@@ -69,37 +68,164 @@ public class Foods {
         return foods.size();
     }
 
-    public FoodsStatistics getAllFoodStatistics() {
-        if (allStatistics == null) {
-            allStatistics = new FoodsStatistics(foods);
+
+    //The following methods get the total amount of Foods
+    public int getTotalCategory(String category) {
+        if (categories.containsKey(category)) {
+            return categories.get(category).size();
         }
-        if (foods.size() != allStatistics.getCount()) {
-            allStatistics = new FoodsStatistics(foods);
-        }
-        return allStatistics;
+        return 0;
     }
 
+    public int getTotalSubCategory(String sub) {
+        if (subCategories.containsKey(sub)) {
+            return subCategories.get(sub).size();
+        }
+        return 0;
+    }
+    //End of total amount of Foods
+
+    //The Following Methods get Total Values
     public double getTotalValue() {
-        getAllFoodStatistics();
-        return allStatistics.getTotal();
+        double totalValue = 0;
+        for (Food food : foods) {
+            totalValue += food.getValue();
+        }
+        return (double) Math.round(totalValue * 100) / 100;
     }
 
+    private double getTotalValueFromFoods(List<Food> foods) {
+        double totalValue = 0;
+        for (Food food : foods) {
+            totalValue += food.getValue();
+        }
+        return (double) Math.round(totalValue * 100) / 100;
+    }
+
+    public double getTotalValueCategory(String category) {
+        if (categories.containsKey(category)) {
+            return getTotalValueFromFoods(categories.get(category));
+        }
+        return 0;
+    }
+
+    public double getTotalValueSubCategory(String sub) {
+        if (subCategories.containsKey(sub)) {
+            return getTotalValueFromFoods(subCategories.get(sub));
+        }
+        return 0;
+    }
+    //End of Total Values
+
+    //The following get Avg Value of Food
     public double getAverageValue() {
-        getAllFoodStatistics();
-        return allStatistics.getAverage();
+        double sum = 0;
+        for (Food food : foods) {
+            sum += food.getValue();
+        }
+        return (double) Math.round(sum / foods.size() * 100) / 100;
     }
 
+    private double getAverageValueFromFoods(List<Food> foods) {
+        double sum = 0;
+        for (Food food : foods) {
+            sum += food.getValue();
+        }
+        return (double) Math.round(sum / foods.size() * 100) / 100;
+    }
+
+    public double getAvgCategoryValue(String category) {
+        if (categories.containsKey(category)) {
+            return getAverageValueFromFoods(categories.get(category));
+        }
+        return 0;
+    }
+
+    public double getAvgSubCategoryValue(String sub) {
+        if (subCategories.containsKey(sub)) {
+            return getAverageValueFromFoods(subCategories.get(sub));
+        }
+        return 0;
+    }
+    //End of Avg Value of Food
+
+    //The Following methods get Minimum value of Foods
     public double getMinimumValue() {
-        getAllFoodStatistics();
-        return allStatistics.getMinimum();
+        double min = Double.MAX_VALUE;
+        for (Food food : foods) {
+            if (food.getValue() < min) {
+                min = food.getValue();
+            }
+        }
+        return min;
     }
 
+    private double getMinimumValueFromFoods(List<Food> foods) {
+        double min = Double.MAX_VALUE;
+        for (Food food : foods) {
+            if (food.getValue() < min) {
+                min = food.getValue();
+            }
+        }
+        return min;
+    }
+
+    public double getMinimumValueCategory(String category) {
+        if (categories.containsKey(category)) {
+            return getMinimumValueFromFoods(categories.get(category));
+        }
+        return 0;
+    }
+
+    public double getMinimumValueSubcategory(String subcategory) {
+        if (subCategories.containsKey(subcategory)) {
+            return getMinimumValueFromFoods(subCategories.get(subcategory));
+        }
+        return 0;
+    }
+    //End of Minimum Value of Foods
+
+    //The following methods get Maximum Value of Foods
     public double getMaximumValue() {
-        getAllFoodStatistics();
-        return allStatistics.getMaximum();
+        double max = 0;
+        for (Food food : foods) {
+            if (food.getValue() > max) {
+                max = food.getValue();
+            }
+        }
+        return max;
     }
 
+    private double getMaximumValueFromFoods(List<Food> foods) {
+        double max = 0;
+        for (Food food : foods) {
+            if (food.getValue() > max) {
+                max = food.getValue();
+            }
+        }
+        return max;
+    }
+
+    public double getMaximumValueCategory(String category) {
+        if (categories.containsKey(category)) {
+            return getMaximumValueFromFoods(categories.get(category));
+        }
+        return 0;
+    }
+
+    public double getMaximumValueSubCategory(String subcategory) {
+        if (subCategories.containsKey(subcategory)) {
+            return getMaximumValueFromFoods(subCategories.get(subcategory));
+        }
+        return 0;
+    }
+    //End of Maximum Value of Foods
 
 
-
+    @Override
+    public String toString() {
+        return ("Overall: Total: " + getTotalValue() +
+                " Min: " + getMinimumValue() + " Max: " + getMinimumValue() +
+                " Avg: " + getAverageValue());
+    }
 }

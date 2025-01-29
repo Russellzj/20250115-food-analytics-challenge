@@ -12,7 +12,7 @@ public class Kata {
 
     public static void main(String[] args) {
         Foods foods = new Foods();
-        File file = new File("Solutions/Java/data/datasetTest.csv");
+        File file = new File("Solutions/Java/data/dataset.csv");
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
@@ -21,6 +21,9 @@ public class Kata {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        System.out.println(foods);
+
         System.out.println("End");
     }
 }
