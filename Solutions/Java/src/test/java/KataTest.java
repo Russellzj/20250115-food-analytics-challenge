@@ -83,8 +83,10 @@ public class KataTest {
             "7,Dairy,Milk,76.12,2024-01-15T12:46:00",
             "8,Grain,Oats,28.51,2024-01-20T14:21:00",
             "9,Dairy,Milk,10.18,2024-01-09T19:16:00",
-            "10,Dairy,Yogurt,60.77,2024-01-04T22:55:00"}
-            )
+            "10,Dairy,Yogurt,60.77,2024-01-04T22:55:00",
+            "4687,Grain,Corn,70.31,2024-02-06T15:37:00,",
+            "1874,Dairy,Milk,'9.99',2024-03-08T22:05:00"
+    })
     public void shouldAcceptData(String food) {
         Foods foods = new Foods();
         foods.addFood(food);
