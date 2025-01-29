@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Foods {
     private List<Food> foods = new ArrayList<Food>();
+    private FoodsStatistics allStatistics;
 
     public void addFood(String foodData) {
         Food newFood = importData(foodData);
@@ -19,6 +20,7 @@ public class Foods {
         String[] foodData = data.split(",");
         for (int i = 0; i < foodData.length; i++) {
             foodData[i] = foodData[i].replaceAll("^\"|\"$", "");
+            foodData[i] = foodData[i].trim();
         }
         if (foodData.length == 5) {
             if(foodData[0].matches("\\d+")) {
@@ -63,7 +65,41 @@ public class Foods {
         return foods;
     }
 
-    public int getTotalFood() {
+    public int getCount() {
         return foods.size();
     }
+
+    public FoodsStatistics getAllFoodStatistics() {
+        if (allStatistics == null) {
+            allStatistics = new FoodsStatistics(foods);
+        }
+        if (foods.size() != allStatistics.getCount()) {
+            allStatistics = new FoodsStatistics(foods);
+        }
+        return allStatistics;
+    }
+
+    public double getTotalValue() {
+        getAllFoodStatistics();
+        return allStatistics.getTotal();
+    }
+
+    public double getAverageValue() {
+        getAllFoodStatistics();
+        return allStatistics.getAverage();
+    }
+
+    public double getMinimumValue() {
+        getAllFoodStatistics();
+        return allStatistics.getMinimum();
+    }
+
+    public double getMaximumValue() {
+        getAllFoodStatistics();
+        return allStatistics.getMaximum();
+    }
+
+
+
+
 }
